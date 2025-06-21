@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+Ôªøimport React, { useState } from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 
@@ -22,29 +29,78 @@ export default function RegisterScreen({ navigation }: Props) {
                 throw new Error(error);
             }
 
-            Alert.alert('Sukces', 'Konto zosta≥o utworzone!');
+            Alert.alert('Sukces', 'Konto zosta≈Ço utworzone!');
             navigation.navigate('Login');
         } catch (error: any) {
-            Alert.alert('B≥πd rejestracji', error.message);
+            Alert.alert('B≈ÇƒÖd rejestracji', error.message);
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Rejestracja</Text>
-            <TextInput style={styles.input} placeholder="Nazwa uøytkownika" value={username} onChangeText={setUsername} />
-            <TextInput style={styles.input} placeholder="Has≥o" secureTextEntry value={password} onChangeText={setPassword} />
-            <Button title="Zarejestruj siÍ" onPress={handleRegister} />
+            <Text style={styles.title}>üìù Rejestracja</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Nazwa u≈ºytkownika"
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Has≈Ço"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Zarejestruj siƒô</Text>
+            </TouchableOpacity>
             <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
-                Masz juø konto? Zaloguj siÍ
+                Masz ju≈º konto? <Text style={styles.linkInner}>Zaloguj siƒô</Text>
             </Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', padding: 24 },
-    title: { fontSize: 28, marginBottom: 16, textAlign: 'center' },
-    input: { borderWidth: 1, borderColor: '#ccc', marginBottom: 12, padding: 10, borderRadius: 6 },
-    link: { color: 'blue', marginTop: 16, textAlign: 'center' },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 24,
+        backgroundColor: '#F8F9FA',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 24,
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 16,
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        padding: 12,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    link: {
+        marginTop: 16,
+        textAlign: 'center',
+        fontSize: 14,
+        color: '#000',
+    },
+    linkInner: {
+        color: '#007BFF',
+        fontWeight: 'bold',
+    },
 });

@@ -15,8 +15,13 @@ export default function WelcomeScreen() {
                 <Text style={styles.subtitle}>
                     Witaj w systemie rezerwacji stolików w naszej restauracji! Zarezerwuj swój stolik szybko i wygodnie.
                 </Text>
+
                 <Pressable style={styles.button} onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.buttonText}>Przejdź dalej</Text>
+                </Pressable>
+
+                <Pressable onPress={() => navigation.navigate('Register')}>
+                    <Text style={styles.linkText}>Zamiast tego przejdź do rejestracji</Text>
                 </Pressable>
             </View>
         </View>
@@ -63,4 +68,11 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     },
+    linkText: {
+        marginTop: 16,
+        color: '#2973B2', // np. niebieski
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+        fontSize: 14,
+    }
 });
