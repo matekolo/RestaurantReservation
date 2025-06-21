@@ -16,7 +16,9 @@ if (Encoding.UTF8.GetByteCount(keyString) < 32)
 {
     throw new Exception("JWT key must be at least 32 bytes (256 bits) long.");
 }
+
 var key = Encoding.UTF8.GetBytes(keyString);
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -32,7 +34,10 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+        RoleClaimType = "role",          // <-- Wa¿ne! Zgodne z tym co w tokenie
+        NameClaimType = "userId"         // <-- U¿ywane do User.FindFirst("userId")
     };
 });
 
@@ -47,6 +52,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
 app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
@@ -56,7 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+app.UseAuthentication(); // Musi byæ przed Authorization
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

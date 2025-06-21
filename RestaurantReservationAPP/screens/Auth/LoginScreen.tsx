@@ -1,51 +1,95 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/AppNavigator';
+﻿import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import API from '../../services/api';
+import { useNavigation } from '@react-navigation/native';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
-
-export default function LoginScreen({ navigation }: Props) {
+export default function LoginScreen() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
     const handleLogin = async () => {
         try {
-            const res = await fetch('http://localhost:5242/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, passwordHash: password }),
+            const response = await API.post('/auth/login', {
+                username,
+                passwordHash: password,
             });
 
-            if (!res.ok) {
-                const error = await res.text();
-                throw new Error(error);
-            }
+            const { token, id, role } = response.data;
 
-            const data = await res.json();
-            Alert.alert('Zalogowano', `Witaj, ${data.username}!`);
-            navigation.navigate('ReservationList');
-        } catch (error: any) {
-            Alert.alert('B��d logowania', error.message);
+            // ✅ Zapis tokena i danych użytkownika
+            await AsyncStorage.setItem('token', token);
+            await AsyncStorage.setItem('userId', id.toString());
+            await AsyncStorage.setItem('role', role);
+
+            Alert.alert('Zalogowano pomyślnie');
+            navigation.navigate('ReservationList'); // <- lub inna ścieżka po logowaniu
+        } catch (error) {
+            console.error('Błąd logowania:', error);
+            Alert.alert('Błąd logowania', 'Sprawdź nazwę użytkownika i hasło');
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Logowanie</Text>
-            <TextInput style={styles.input} placeholder="Nazwa u�ytkownika" value={username} onChangeText={setUsername} />
-            <TextInput style={styles.input} placeholder="Has�o" secureTextEntry value={password} onChangeText={setPassword} />
-            <Button title="Zaloguj si�" onPress={handleLogin} />
-            <Text style={styles.link} onPress={() => navigation.navigate('Register')}>
-                Nie masz konta? Zarejestruj si�
-            </Text>
+            <Text style={styles.title}>🔐 Logowanie</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Nazwa użytkownika"
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Hasło"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Zaloguj</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', padding: 24 },
-    title: { fontSize: 28, marginBottom: 16, textAlign: 'center' },
-    input: { borderWidth: 1, borderColor: '#ccc', marginBottom: 12, padding: 10, borderRadius: 6 },
-    link: { color: 'blue', marginTop: 16, textAlign: 'center' },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 24,
+        backgroundColor: '#F8F9FA',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 24,
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 16,
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        padding: 12,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });

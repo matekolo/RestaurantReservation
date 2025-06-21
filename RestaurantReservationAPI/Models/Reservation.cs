@@ -7,8 +7,12 @@ namespace RestaurantReservationAPI.Models
         public int Id { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public DateTime ReservationTime { get; set; }
-        public int TableId { get; set; }
 
+        public int TableId { get; set; }
         public Table? Table { get; set; }
+
+ 
+        public int UserId { get; set; }
+        public User? User { get; set; }
     }
 }

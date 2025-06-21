@@ -4,8 +4,7 @@
     "\\Controllers",
     "\\Data",
     "\\Migrations",
-    "\\Models",
-    "\\Services"
+    "\\Models"
   ],
   "SelectedNode": "\\Controllers\\ReservationsController.cs",
   "PreviewInSolutionExplorer": false

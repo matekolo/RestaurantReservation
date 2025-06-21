@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation, useIsFocused, NavigationProp } from '@react-navigation/native';
 import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import API from '../services/api';
 import { RootStackParamList } from '../navigation/AppNavigator';
 
@@ -26,6 +27,7 @@ export default function ReservationListScreen() {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [reservationToDelete, setReservationToDelete] = useState<number | null>(null);
+    const [userRole, setUserRole] = useState<string | null>(null);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const isFocused = useIsFocused();
@@ -44,6 +46,14 @@ export default function ReservationListScreen() {
             fetchReservations();
         }
     }, [isFocused]);
+
+    useEffect(() => {
+        const loadRole = async () => {
+            const role = await AsyncStorage.getItem('role');
+            setUserRole(role);
+        };
+        loadRole();
+    }, []);
 
     useEffect(() => {
         navigation.setOptions({
@@ -81,22 +91,24 @@ export default function ReservationListScreen() {
             <Text style={styles.detail}>
                 📅 Termin: {new Date(item.reservationTime).toLocaleString()}
             </Text>
-            <View style={styles.buttonRow}>
-                <TouchableOpacity
-                    style={[styles.button, { backgroundColor: '#007BFF' }]}
-                    onPress={() =>
-                        navigation.navigate('ReservationForm', { reservation: item })
-                    }
-                >
-                    <Text style={styles.buttonText}>Edytuj</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button, { backgroundColor: '#DC3545' }]}
-                    onPress={() => confirmDelete(item.id)}
-                >
-                    <Text style={styles.buttonText}>Usuń</Text>
-                </TouchableOpacity>
-            </View>
+            {userRole === 'Manager' && (
+                <View style={styles.buttonRow}>
+                    <TouchableOpacity
+                        style={[styles.button, { backgroundColor: '#007BFF' }]}
+                        onPress={() =>
+                            navigation.navigate('ReservationForm', { reservation: item })
+                        }
+                    >
+                        <Text style={styles.buttonText}>Edytuj</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.button, { backgroundColor: '#DC3545' }]}
+                        onPress={() => confirmDelete(item.id)}
+                    >
+                        <Text style={styles.buttonText}>Usuń</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </View>
     );
 

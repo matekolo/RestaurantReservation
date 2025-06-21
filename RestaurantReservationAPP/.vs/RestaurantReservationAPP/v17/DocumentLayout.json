@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\WelcomeScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\WelcomeScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\LoginScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\Auth\\LoginScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\ReservationListScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\ReservationListScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\services\\api.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:services\\api.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\RegisterScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\Auth\\RegisterScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\LoginScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\Auth\\LoginScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\navigation\\AppNavigator.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:navigation\\AppNavigator.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\WelcomeScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:screens\\WelcomeScreen.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,16 +42,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "api.ts",
+              "DocumentMoniker": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\services\\api.ts",
+              "RelativeDocumentMoniker": "services\\api.ts",
+              "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\services\\api.ts",
+              "RelativeToolTip": "services\\api.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-06-21T19:49:38.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "WelcomeScreen.tsx",
               "DocumentMoniker": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\WelcomeScreen.tsx",
               "RelativeDocumentMoniker": "screens\\WelcomeScreen.tsx",
               "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\WelcomeScreen.tsx",
               "RelativeToolTip": "screens\\WelcomeScreen.tsx",
-              "ViewState": "AgIAACkAAAAAAAAAAAAuwEIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAuwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-06-21T15:34:50.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T15:34:50.264Z"
             },
             {
               "$type": "Document",
@@ -57,7 +72,7 @@
               "RelativeDocumentMoniker": "screens\\ReservationListScreen.tsx",
               "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\ReservationListScreen.tsx",
               "RelativeToolTip": "screens\\ReservationListScreen.tsx",
-              "ViewState": "AgIAAKwAAAAAAAAAAAAkwNkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAQwNwAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-06-21T15:34:33.873Z",
               "EditorCaption": ""
@@ -70,33 +85,31 @@
               "RelativeDocumentMoniker": "navigation\\AppNavigator.tsx",
               "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\navigation\\AppNavigator.tsx",
               "RelativeToolTip": "navigation\\AppNavigator.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-06-21T15:33:05.677Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T15:33:05.677Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RegisterScreen.tsx",
               "DocumentMoniker": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\RegisterScreen.tsx",
               "RelativeDocumentMoniker": "screens\\Auth\\RegisterScreen.tsx",
               "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\RegisterScreen.tsx",
               "RelativeToolTip": "screens\\Auth\\RegisterScreen.tsx",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAkwDIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-06-21T15:31:46.655Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T15:31:46.655Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "LoginScreen.tsx",
               "DocumentMoniker": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\LoginScreen.tsx",
               "RelativeDocumentMoniker": "screens\\Auth\\LoginScreen.tsx",
               "ToolTip": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPP\\screens\\Auth\\LoginScreen.tsx",
               "RelativeToolTip": "screens\\Auth\\LoginScreen.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-06-21T15:30:17.015Z",
               "EditorCaption": ""

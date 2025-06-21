@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+Ôªøusing Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,7 +28,7 @@ namespace RestaurantReservationAPI.Controllers
         public async Task<IActionResult> Register(User user)
         {
             if (await _context.Users.AnyAsync(u => u.Username == user.Username))
-                return BadRequest("Uøytkownik juø istnieje.");
+                return BadRequest("U≈ºytkownik ju≈º istnieje.");
 
             user.PasswordHash = ComputeHash(user.PasswordHash);
             _context.Users.Add(user);
@@ -43,7 +43,7 @@ namespace RestaurantReservationAPI.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == login.Username);
 
             if (user == null || user.PasswordHash != ComputeHash(login.PasswordHash))
-                return Unauthorized("Nieprawid≥owe dane logowania.");
+                return Unauthorized("Nieprawid≈Çowe dane logowania.");
 
             var token = GenerateJwtToken(user);
             return Ok(new { token, user.Id, user.Username, user.Role });
@@ -60,13 +60,18 @@ namespace RestaurantReservationAPI.Controllers
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
 
             var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("userId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("role", user.Role), // ‚Üê TO DODAJ!
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
              };
+    
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -74,7 +79,9 @@ namespace RestaurantReservationAPI.Controllers
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"]
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

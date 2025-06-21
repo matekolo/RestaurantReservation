@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationAPI.Data;
@@ -12,6 +9,7 @@ namespace RestaurantReservationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReservationsController : ControllerBase
     {
         private readonly ReservationContext _context;
@@ -25,38 +23,68 @@ namespace RestaurantReservationAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
-            var reservations = await _context.Reservations
-                .Include(r => r.Table) 
-                .ToListAsync();
+            var role = User.FindFirstValue("role") ?? User.FindFirstValue(ClaimTypes.Role);
+            var userIdStr = User.FindFirstValue("userId") ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return Ok(reservations);
+            if (userIdStr == null)
+                return Unauthorized();
+
+            var userId = int.Parse(userIdStr);
+
+            if (role == "Manager")
+            {
+                // Manager widzi wszystkie rezerwacje
+                return await _context.Reservations
+                    .Include(r => r.Table)
+                    .Include(r => r.User)
+                    .ToListAsync();
+            }
+            else
+            {
+                // Zwykły użytkownik widzi tylko swoje rezerwacje
+                return await _context.Reservations
+                    .Where(r => r.UserId == userId)
+                    .Include(r => r.Table)
+                    .Include(r => r.User)
+                    .ToListAsync();
+            }
         }
+
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
-
+            var reservation = await _context.Reservations.Include(r => r.Table).FirstOrDefaultAsync(r => r.Id == id);
             if (reservation == null)
-            {
                 return NotFound();
-            }
 
-            return reservation;
+            var role = User.FindFirstValue("role");
+            var userIdClaim = User.FindFirstValue("userId");
+
+            if (role != "Manager" && (!int.TryParse(userIdClaim, out int userId) || reservation.UserId != userId))
+                return Forbid();
+
+            return Ok(reservation);
         }
 
         // PUT: api/Reservations/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReservation(int id, Reservation reservation)
+        public async Task<IActionResult> PutReservation(int id, [FromBody] Reservation updatedReservation)
         {
-            if (id != reservation.Id)
-            {
-                return BadRequest();
-            }
+            var role = User.FindFirstValue("role") ?? User.FindFirstValue(ClaimTypes.Role);
+            var userIdStr = User.FindFirstValue("userId") ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (role != "Manager" || userIdStr == null)
+                return Forbid();
 
-            _context.Entry(reservation).State = EntityState.Modified;
+            var existingReservation = await _context.Reservations.FindAsync(id);
+            if (existingReservation == null)
+                return NotFound();
+
+            // Aktualizujemy tylko dane widoczne w formularzu
+            existingReservation.CustomerName = updatedReservation.CustomerName;
+            existingReservation.ReservationTime = updatedReservation.ReservationTime;
+            existingReservation.TableId = updatedReservation.TableId;
 
             try
             {
@@ -64,45 +92,52 @@ namespace RestaurantReservationAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReservationExists(id))
-                {
+                if (!await _context.Reservations.AnyAsync(r => r.Id == id))
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
         }
 
+
+
         // POST: api/Reservations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
+            var userIdClaim = User.FindFirstValue("userId");
+
+            if (!int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("Invalid userId claim");
+
+            reservation.UserId = userId;
+
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+            return CreatedAtAction(nameof(GetReservation), new { id = reservation.Id }, reservation);
         }
 
         // DELETE: api/Reservations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
+            var role = User.FindFirstValue("role") ?? User.FindFirstValue(ClaimTypes.Role);
+            if (role != "Manager")
+                return Forbid();
+
             var reservation = await _context.Reservations.FindAsync(id);
             if (reservation == null)
-            {
                 return NotFound();
-            }
 
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         private bool ReservationExists(int id)
         {

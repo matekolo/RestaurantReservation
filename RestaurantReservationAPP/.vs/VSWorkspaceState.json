@@ -2,12 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\api",
+    "\\assets",
     "\\navigation",
     "\\screens",
     "\\screens\\Auth",
-    "\\tests",
-    "\\tests\\e2e"
+    "\\services"
   ],
-  "SelectedNode": "\\screens\\WelcomeScreen.tsx",
+  "SelectedNode": "\\screens\\Auth\\LoginScreen.tsx",
   "PreviewInSolutionExplorer": false
 }
