@@ -545,3 +545,4 @@ C:\Users\matit\source\repos\RestaurantReservation\RestaurantReservationAPI\obj\D
 C:\Users\matit\source\repos\RestaurantReservation\RestaurantReservationAPI\obj\Debug\net9.0\RestaurantReservationAPI.pdb
 C:\Users\matit\source\repos\RestaurantReservation\RestaurantReservationAPI\obj\Debug\net9.0\RestaurantReservationAPI.genruntimeconfig.cache
 C:\Users\matit\source\repos\RestaurantReservation\RestaurantReservationAPI\obj\Debug\net9.0\ref\RestaurantReservationAPI.dll
+C:\Users\matit\source\repos\RestaurantReservation\RestaurantReservationAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

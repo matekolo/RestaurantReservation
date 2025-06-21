@@ -11,5 +11,6 @@ namespace RestaurantReservationAPI.Data
 
         public DbSet<Table> Tables { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

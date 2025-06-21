@@ -1,10 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\api",
+    "\\navigation",
     "\\screens",
+    "\\screens\\Auth",
     "\\tests",
     "\\tests\\e2e"
   ],
-  "SelectedNode": "\\metro.config.js",
+  "SelectedNode": "\\screens\\WelcomeScreen.tsx",
   "PreviewInSolutionExplorer": false
 }

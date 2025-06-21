@@ -1,32 +1,54 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RestaurantReservationAPI.Data;
-using RestaurantReservationAPI.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaj kontrolery i EF Core do kontenera DI
-builder.Services.AddControllers();
+// Dodaj DbContext
 builder.Services.AddDbContext<ReservationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// (opcjonalnie) dodaj Swagger
+// Konfiguracja JWT
+var keyString = builder.Configuration["Jwt:Key"]!;
+if (Encoding.UTF8.GetByteCount(keyString) < 32)
+{
+    throw new Exception("JWT key must be at least 32 bytes (256 bits) long.");
+}
+var key = Encoding.UTF8.GetBytes(keyString);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
+
+// Inne us³ugi
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:8081") // domyœlny port dla Expo Web
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+        policy => policy.WithOrigins("http://localhost:8081").AllowAnyHeader().AllowAnyMethod());
 });
 
 var app = builder.Build();
 app.UseCors("AllowFrontend");
 
-// W³¹cz Swagger tylko w trybie deweloperskim
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -34,10 +56,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
-// mapowanie kontrolerów (np. TablesController, ReservationsController)
 app.MapControllers();
-
 app.Run();
