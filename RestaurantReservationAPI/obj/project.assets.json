@@ -7950,11 +7950,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\matit\\source\\repos\\RestaurantReservationAPI\\RestaurantReservationAPI.csproj",
+      "projectUniqueName": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPI\\RestaurantReservationAPI.csproj",
       "projectName": "RestaurantReservationAPI",
-      "projectPath": "C:\\Users\\matit\\source\\repos\\RestaurantReservationAPI\\RestaurantReservationAPI.csproj",
+      "projectPath": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPI\\RestaurantReservationAPI.csproj",
       "packagesPath": "C:\\Users\\matit\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\matit\\source\\repos\\RestaurantReservationAPI\\obj\\",
+      "outputPath": "C:\\Users\\matit\\source\\repos\\RestaurantReservation\\RestaurantReservationAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

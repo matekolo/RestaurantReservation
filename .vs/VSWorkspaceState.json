@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\RestaurantReservationAPP",
+    "\\RestaurantReservationAPP\\navigation",
+    "\\RestaurantReservationAPP\\screens"
   ],
+  "SelectedNode": "\\RestaurantReservationAPP\\App.tsx",
   "PreviewInSolutionExplorer": false
 }
