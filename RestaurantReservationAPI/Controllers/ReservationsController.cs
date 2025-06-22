@@ -35,7 +35,6 @@ namespace RestaurantReservationAPI.Controllers
 
             if (role == "Manager")
             {
-                
                 return await _context.Reservations
                     .Include(r => r.Table)
                     .Include(r => r.User)

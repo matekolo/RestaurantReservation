@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantReservationAPI.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -45,7 +46,15 @@ namespace RestaurantReservationAPI.Controllers
             if (user == null || user.PasswordHash != ComputeHash(login.PasswordHash))
                 return Unauthorized("Nieprawidłowe dane logowania.");
 
-            var token = GenerateJwtToken(user);
+            var token = TokenFactory.CreateToken(
+                user.Id,
+                user.Role,
+                _configuration["Jwt:Key"]!,
+                _configuration["Jwt:Issuer"]!,
+                _configuration["Jwt:Audience"]!,
+                user.Username
+            );
+
             return Ok(new { token, user.Id, user.Username, user.Role });
         }
 
@@ -56,37 +65,6 @@ namespace RestaurantReservationAPI.Controllers
             var hash = sha256.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
         }
-
-        private string GenerateJwtToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
-
-            var claims = new[]
-             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim("userId", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim("role", user.Role),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-             };
-    
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature),
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"]
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
     }
+
 }
