@@ -5,8 +5,9 @@
     "\\Data",
     "\\Migrations",
     "\\Models",
-    "\\Properties"
+    "\\Properties",
+    "\\Utils"
   ],
-  "SelectedNode": "\\Properties\\launchSettings.json",
+  "SelectedNode": "\\Controllers\\ReservationsController.cs",
   "PreviewInSolutionExplorer": false
 }

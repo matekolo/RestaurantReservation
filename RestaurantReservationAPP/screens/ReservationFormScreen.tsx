@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -12,6 +12,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import API from '../services/api';
+import { Snackbar } from 'react-native-paper';
+
+
 
 type Table = {
     id: number;
@@ -25,6 +28,10 @@ export default function ReservationFormScreen() {
     const [date, setDate] = useState(new Date());
     const [datetimeString, setDatetimeString] = useState('');
     const [showPicker, setShowPicker] = useState(false);
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
+
 
     const route = useRoute();
     const navigation = useNavigation();
@@ -55,40 +62,49 @@ export default function ReservationFormScreen() {
     }, [date]);
 
     const handleSubmit = async () => {
-  if (!name || !datetimeString || tableId === -1) {
-    Alert.alert('Uzupe�nij wszystkie pola!');
-    return;
-  }
-
-  const payload = {
-    id: existingReservation?.id,
-    customerName: name,
-    reservationTime: datetimeString,
-    tableId: tableId,
-  };
-
-  try {
-    if (existingReservation) {
-      await API.put(`/reservations/${existingReservation.id}`, payload);
-      Alert.alert('Rezerwacja zaktualizowana!');
-    } else {
-      await API.post('/reservations', payload);
-      Alert.alert('Rezerwacja zapisana!');
+    if (!name || !datetimeString || tableId === -1) {
+        setSnackbarMessage('Uzupełnij wszystkie pola!');
+        setSnackbarVisible(true);
+        return;
     }
-    setName('');
-    setDate(new Date());
-    setTableId(-1);
-    navigation.goBack();
-  } catch (err) {
-    console.error('B��d:', err);
-    Alert.alert('B��d zapisu rezerwacji.');
-  }
+
+    const payload = {
+        id: existingReservation?.id,
+        customerName: name,
+        reservationTime: datetimeString,
+        tableId: tableId,
+    };
+
+    try {
+        if (existingReservation) {
+            await API.put(`/reservations/${existingReservation.id}`, payload);
+            setSnackbarMessage('Rezerwacja została zaktualizowana!');
+        } else {
+            const response = await API.post('/reservations', payload);
+            const message = response.data?.message || 'Rezerwacja zapisana!';
+            setSnackbarMessage(message);
+        }
+
+        setSnackbarVisible(true);
+        setName('');
+        setDate(new Date());
+        setTableId(-1);
+
+        // opóźnij powrót po pokazaniu Snackbara
+        setTimeout(() => navigation.goBack(), 1500);
+    } catch (err) {
+        console.error('Błąd:', err);
+        setSnackbarMessage('Nie udało się zapisać rezerwacji.');
+        setSnackbarVisible(true);
+    }
 };
+
+
 
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>Imi� i nazwisko:</Text>
+            <Text style={styles.label}>Imię i nazwisko:</Text>
             <TextInput
                 style={styles.input}
                 value={name}
@@ -151,6 +167,18 @@ export default function ReservationFormScreen() {
             </Picker>
 
             <Button title="ZAREZERWUJ" onPress={handleSubmit} />
+            <Snackbar
+  visible={snackbarVisible}
+  onDismiss={() => setSnackbarVisible(false)}
+  duration={2000}
+  action={{
+    label: 'OK',
+    onPress: () => setSnackbarVisible(false),
+  }}
+>
+  {snackbarMessage}
+</Snackbar>
+
         </View>
     );
 }

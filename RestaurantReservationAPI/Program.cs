@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RestaurantReservationAPI.Data;
+using RestaurantReservationAPI.Utils;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<ReservationNotifier>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -49,6 +51,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+var notifier = app.Services.GetRequiredService<ReservationNotifier>();
+notifier.OnReservationCreated += (name) =>
+{
+    Console.WriteLine($"📢 Utworzono rezerwację dla: {name}");
+};
+
 
 app.UseCors("AllowFrontend");
 

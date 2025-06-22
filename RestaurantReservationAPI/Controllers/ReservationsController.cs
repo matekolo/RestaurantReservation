@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationAPI.Data;
 using RestaurantReservationAPI.Models;
+using RestaurantReservationAPI.Utils;
 
 namespace RestaurantReservationAPI.Controllers
 {
@@ -13,13 +14,14 @@ namespace RestaurantReservationAPI.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly ReservationContext _context;
+        private readonly ReservationNotifier _notifier;
 
-        public ReservationsController(ReservationContext context)
+        public ReservationsController(ReservationContext context, ReservationNotifier notifier)
         {
             _context = context;
+            _notifier = notifier;
         }
 
-        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
@@ -98,7 +100,7 @@ namespace RestaurantReservationAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
+        public async Task<ActionResult> PostReservation(Reservation reservation)
         {
             var userIdClaim = User.FindFirstValue("userId");
 
@@ -110,8 +112,14 @@ namespace RestaurantReservationAPI.Controllers
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetReservation), new { id = reservation.Id }, reservation);
+            _notifier.NotifyReservationCreated(reservation.CustomerName); // <- Observer działa
+
+            return Ok(new
+            {
+                message = $"Rezerwacja dla {reservation.CustomerName} została dodana!"
+            });
         }
+
 
 
         [HttpDelete("{id}")]
