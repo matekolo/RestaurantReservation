@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5242/api/auth"; // dopasuj port
+const API_URL = "http://localhost:5242/api/auth"; 
 
 export const loginUser = async (username: string, password: string) => {
     const res = await fetch(`${API_URL}/login`, {
@@ -11,7 +11,7 @@ export const loginUser = async (username: string, password: string) => {
         throw new Error("B³¹d logowania");
     }
 
-    return res.json(); // { id, username, role }
+    return res.json(); 
 };
 
 export const registerUser = async (username: string, password: string) => {
@@ -26,5 +26,4 @@ export const registerUser = async (username: string, password: string) => {
         throw new Error(errorText || "B³¹d rejestracji");
     }
 
-    return res.text(); // success
-};
+    return res.text(); 

@@ -6,11 +6,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaj DbContext
 builder.Services.AddDbContext<ReservationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Konfiguracja JWT
 var keyString = builder.Configuration["Jwt:Key"]!;
 if (Encoding.UTF8.GetByteCount(keyString) < 32)
 {
@@ -36,12 +34,11 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
 
-        RoleClaimType = "role",          // <-- Wa¿ne! Zgodne z tym co w tokenie
-        NameClaimType = "userId"         // <-- U¿ywane do User.FindFirst("userId")
+        RoleClaimType = "role",  
+        NameClaimType = "userId"         
     };
 });
 
-// Inne us³ugi
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -62,7 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication(); // Musi byæ przed Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

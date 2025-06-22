@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\api",
-    "\\assets",
-    "\\navigation",
     "\\screens",
     "\\screens\\Auth",
-    "\\services"
+    "\\services",
+    "\\tests"
   ],
+  "SelectedNode": "\\index.ts",
   "PreviewInSolutionExplorer": false
 }

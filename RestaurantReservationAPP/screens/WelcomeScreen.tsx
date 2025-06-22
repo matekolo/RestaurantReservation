@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         marginTop: 16,
-        color: '#2973B2', // np. niebieski
+        color: '#2973B2',
         textAlign: 'center',
         textDecorationLine: 'underline',
         fontSize: 14,

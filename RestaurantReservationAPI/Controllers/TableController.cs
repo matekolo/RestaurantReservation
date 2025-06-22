@@ -21,14 +21,12 @@ namespace RestaurantReservationAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Tables
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Table>>> GetTables()
         {
             return await _context.Tables.ToListAsync();
         }
 
-        // GET: api/Tables/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Table>> GetTable(int id)
         {
@@ -42,8 +40,6 @@ namespace RestaurantReservationAPI.Controllers
             return table;
         }
 
-        // PUT: api/Tables/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTable(int id, Table table)
         {
@@ -73,8 +69,6 @@ namespace RestaurantReservationAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Tables
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Table>> PostTable(Table table)
         {
@@ -84,7 +78,6 @@ namespace RestaurantReservationAPI.Controllers
             return CreatedAtAction("GetTable", new { id = table.Id }, table);
         }
 
-        // DELETE: api/Tables/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTable(int id)
         {

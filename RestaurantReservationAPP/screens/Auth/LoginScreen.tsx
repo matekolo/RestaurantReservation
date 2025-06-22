@@ -31,7 +31,7 @@ export default function LoginScreen() {
             await AsyncStorage.setItem('role', role);
 
             Alert.alert('Zalogowano pomyślnie');
-            navigation.navigate('ReservationList'); // <- lub inna ścieżka po logowaniu
+            navigation.navigate('ReservationList');
         } catch (error) {
             console.error('Błąd logowania:', error);
             Alert.alert('Błąd logowania', 'Sprawdź nazwę użytkownika i hasło');

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -55,18 +55,31 @@ export default function ReservationListScreen() {
         loadRole();
     }, []);
 
+    const [role, setRole] = useState<string | null>(null);
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('ReservationForm')}
-                    style={styles.addButton}
-                >
-                    <Text style={styles.addButtonText}>+ Dodaj</Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', gap: 8, marginRight: 8 }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ReservationForm')}
+                        style={styles.headerButton}
+                    >
+                        <Text style={styles.headerButtonText}>+ Rezerwacja</Text>
+                    </TouchableOpacity>
+                    {role === 'Manager' && (
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('AddTable')}
+                            style={styles.headerButton}
+                        >
+                            <Text style={styles.headerButtonText}>+ Stolik</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
             ),
         });
-    }, [navigation]);
+    }, [navigation, role]);
+
 
     const handleDelete = async (id: number) => {
         try {
@@ -225,5 +238,16 @@ const styles = StyleSheet.create({
     modalButtons: {
         flexDirection: 'row',
         gap: 10,
+    },
+    headerButton: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        borderRadius: 6,
+    },
+    headerButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 12,
     },
 });

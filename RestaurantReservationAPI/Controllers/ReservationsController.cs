@@ -19,7 +19,7 @@ namespace RestaurantReservationAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Reservations
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
@@ -33,7 +33,7 @@ namespace RestaurantReservationAPI.Controllers
 
             if (role == "Manager")
             {
-                // Manager widzi wszystkie rezerwacje
+                
                 return await _context.Reservations
                     .Include(r => r.Table)
                     .Include(r => r.User)
@@ -41,7 +41,7 @@ namespace RestaurantReservationAPI.Controllers
             }
             else
             {
-                // Zwykły użytkownik widzi tylko swoje rezerwacje
+                
                 return await _context.Reservations
                     .Where(r => r.UserId == userId)
                     .Include(r => r.Table)
@@ -50,8 +50,6 @@ namespace RestaurantReservationAPI.Controllers
             }
         }
 
-
-        // GET: api/Reservations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
@@ -68,7 +66,6 @@ namespace RestaurantReservationAPI.Controllers
             return Ok(reservation);
         }
 
-        // PUT: api/Reservations/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReservation(int id, [FromBody] Reservation updatedReservation)
         {
@@ -81,7 +78,6 @@ namespace RestaurantReservationAPI.Controllers
             if (existingReservation == null)
                 return NotFound();
 
-            // Aktualizujemy tylko dane widoczne w formularzu
             existingReservation.CustomerName = updatedReservation.CustomerName;
             existingReservation.ReservationTime = updatedReservation.ReservationTime;
             existingReservation.TableId = updatedReservation.TableId;
@@ -101,9 +97,6 @@ namespace RestaurantReservationAPI.Controllers
             return NoContent();
         }
 
-
-
-        // POST: api/Reservations
         [HttpPost]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
@@ -120,7 +113,7 @@ namespace RestaurantReservationAPI.Controllers
             return CreatedAtAction(nameof(GetReservation), new { id = reservation.Id }, reservation);
         }
 
-        // DELETE: api/Reservations/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {

@@ -67,7 +67,7 @@ namespace RestaurantReservationAPI.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim("userId", user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role),
-                new Claim("role", user.Role), // ← TO DODAJ!
+                new Claim("role", user.Role),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
              };
