@@ -15,11 +15,13 @@ namespace RestaurantReservationAPI.Controllers
     {
         private readonly ReservationContext _context;
         private readonly ReservationNotifier _notifier;
+        private readonly ReservationFacade _reservationFacade;
 
-        public ReservationsController(ReservationContext context, ReservationNotifier notifier)
+        public ReservationsController(ReservationContext context, ReservationNotifier notifier, ReservationFacade reservationFacade)
         {
             _context = context;
             _notifier = notifier;
+            _reservationFacade = reservationFacade;
         }
 
         [HttpGet]
@@ -108,16 +110,14 @@ namespace RestaurantReservationAPI.Controllers
 
             reservation.UserId = userId;
 
-            _context.Reservations.Add(reservation);
-            await _context.SaveChangesAsync();
-
-            _notifier.NotifyReservationCreated(reservation.CustomerName); // <- Observer działa
+            var result = await _reservationFacade.CreateReservationAsync(reservation);
 
             return Ok(new
             {
-                message = $"Rezerwacja dla {reservation.CustomerName} została dodana!"
+                message = $"Rezerwacja dla {result.CustomerName} została dodana!"
             });
         }
+
 
 
 

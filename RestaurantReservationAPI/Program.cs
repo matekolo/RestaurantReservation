@@ -44,6 +44,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ReservationNotifier>();
+builder.Services.AddScoped<ReservationFacade>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
